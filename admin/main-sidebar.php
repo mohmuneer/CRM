@@ -7,6 +7,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+$systemStmt = $pdo->query("SELECT * FROM system_settings LIMIT 1"); // افترضنا اسم الجدول settings
+$systemData = $systemStmt->fetch(PDO::FETCH_ASSOC);
 
 // 1. جلب البيانات من الجلسة
 $userName = $_SESSION['full_name'] ?? 'مستخدم';
@@ -89,10 +91,11 @@ $send_pages = [
 ?>
 <aside class="main-sidebar sidebar-dark-primary elevation-4"
     style="background-color: <?php echo $visuals['sidebar_color']; ?> !important;">
-    <a href="../../index.php" class="brand-link">
-        <img src="<?php echo $logoPath; ?>" alt="System Logo" class="brand-image img-circle elevation-3"
-            style="opacity: .8; width: 33px; height: 33px; object-fit: cover;">
-        <span class="brand-text font-weight-light"><?php echo htmlspecialchars($systemName); ?></span>
+    <a href="/crm/admin/index.php" class="brand-link">
+        <img src="/crm/admin/dist/img/<?php echo $systemData['system_logo'] ?? 'default-login.jpg'; ?>"
+            alt="System Logo" class="brand-image img-circle elevation-3" style="opacity: .8; width: 33px; height: 33px; object-fit: cover;>
+      
+        <span class=" brand-text font-weight-light"><?php echo htmlspecialchars($systemName); ?></span>
     </a>
     <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
